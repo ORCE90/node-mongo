@@ -1,52 +1,28 @@
-const mongoose = require('mongoose');
+const express = require('express');
+const bodyParser = require('body-parser');
 
-mongoose.connect('mongodb+srv://dev:***********!@cluster0-7gtng.mongodb.net/school?retryWrites=true&w=majority', 
-{useNewUrlParser: true, useUnifiedTopology: true})
-.then (res => {
-    console.log(res);
-})
-.catch (err => {
-    console.log(err);
-});
+const config = require('./config/index.js');
+const DBConn = require('./db/connection');
+const filmovi = require('./handlers/filmovi');
 
-const Students = mongoose.model (
-    'students',
-    new mongoose.Schema({
-        first_name: String,
-        last_name: String,
-        average_grade: String,
-        courses: [String],
-        email: String,
-        birthday: Date,
-        _created: Date,
-        _modified: Date,
-    }),
-)
+var c = config.getConfig("db");
 
-var o = new Students ({
-    first_name: "Orce",
-    last_name: "Apostolovski",
-    average_grade: "9",
-    courses: ["HTML", "CSS", "NodeJS"],
-    email: "apostolovski.orce@hotmail.com",
-    birthday: new Date ('1990-09-16T05:00:00Z'),
-    _created: new Date (),
-    _modified: new Date (),
-});
+DBConn.init(c);
+const api = express();
+api.use(bodyParser.json());
 
-// o.save(err => {
-//     if(err) {
-//         console.log ('could not save klient');
-//         return;
-//     }
-//     console.log('save successfull');
-// });
+api.get('/api/v1/filmovi', filmovi.getAll);
+api.get('/api/v1/filmovi/:id', filmovi.getOne);
+api.post('/api/v1/filmovi', filmovi.save);
+api.put('/api/v1/filmovi/:id', filmovi.replace);
+api.patch('/api/v1/filmovi/:id', filmovi.update);
+api.delete('/api/v1/filmovi/:id', filmovi.remove);
 
-
-Students.find ({}, (err, data) => {
+api.listen(8000, err => {
     if(err){
-        console.log('could not read data');
+        console.log('could not start server');
+        console.log(err);
         return;
     }
-    console.log(data);
+    console.log('server started successfully on port 8000');
 });
