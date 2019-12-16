@@ -18,7 +18,7 @@ const Film = mongoose.model(
 
 const getAll = (q, sort) => {
     return new Promise((success, fail) => {
-        Film.find(q, {}, {sort: sort} , (err, data) => {
+        Film.find(q, {}, {sort: sort}, (err, data) => {
             if(err){
                 return fail(err);
             }

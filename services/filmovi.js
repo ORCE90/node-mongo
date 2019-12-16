@@ -9,7 +9,7 @@ var c = config.getConfig("db");
 
 DBConn.init(c);
 const api = express();
-// api.use(bodyParser.json());
+api.use(bodyParser.json());
 // api.use(
 //     jwt(
 //         {secret: config.getConfig('jwt').key}

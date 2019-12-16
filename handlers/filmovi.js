@@ -6,12 +6,8 @@ const getAll = (req, res) => {
     let q = {};
     let sort = {};
 
-    if(req.query.oskar != undefined) {
-        q.oscar = req.query.oskar === 'true' ? true : false;
-    }
-
-    if(req.query.ime != undefined) {
-        q.ime = req.query.ime === 'true' ? true : false;
+    if(req.query.oscar != undefined){
+        q.oscar = req.query.oscar === 'true' ? true : false;
     }
 
     if(req.query.godina_from != undefined) {
@@ -25,17 +21,17 @@ const getAll = (req, res) => {
         if(q.godina == undefined){
             q.godina = {};
         }
-        q.godina.$lt = new Date(Number(req.query.to));
+        q.godina.$lt = new Date(Number(req.query.godina_to));
     }
 
     if(req.query.sort != undefined) {
         let sortable = ['godina', 'ime'];
-        let sq = req.query.sort.split(':');
+        let sq = req.query.sort.split(":");
         if(sortable.indexOf(sq[0]) > -1){
             sort[sq[0]] = sq[1] == 'desc' ? -1 : 1;
+            // sort.godina = -1
         }
     }
-
 
     mFilmovi.getAll(q, sort)
     .then(data => {
