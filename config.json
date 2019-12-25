@@ -1,0 +1,15 @@
+{
+    "db": {
+        "host": "cluster0-7gtng.mongodb.net",
+        "dbname": "videoteka",
+        "username": "dev",
+        "password": "PopcorN1990"
+    },
+    "mailer": {
+        "key": "treba da ima api key od toa sendgrid"
+    },
+    "jwt": {
+        "key": "kluch"
+    } 
+}
+
